@@ -1,9 +1,9 @@
 import type { NextConfig } from 'next';
 
 const nextConfig = {
-  experimental: {
-    ppr: 'incremental',
-  },
+  // experimental: {
+  //   ppr: 'incremental',
+  // },
 };
 
 export default nextConfig;
