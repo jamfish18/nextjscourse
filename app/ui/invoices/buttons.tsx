@@ -15,6 +15,7 @@ export function CreateInvoice() {
 }
 
 export function UpdateInvoice({ id }: { id: string }) {
+
   return (
     <Link
     href={`/dashboard/invoices/${id}/edit`}
