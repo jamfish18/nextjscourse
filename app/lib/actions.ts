@@ -3,7 +3,29 @@
 import { z } from 'zod';
 import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
+import { redirect } from 'next/navigation'; 
+import { signIn } from '@/auth';
+import { AuthError } from 'next-auth';
+
+export async function authenticate(
+    prevState: string | undefined,
+    formData: FormData,
+  ) {
+    try {
+      await signIn('credentials', formData);
+    } catch (error) {
+      if (error instanceof AuthError) {
+        switch (error.type) {
+          case 'CredentialsSignin':
+            return 'Invalid credentials.';
+          default:
+            return 'Something went wrong.';
+        }
+      }
+      throw error;
+    }
+  }
+
 
 // special format for Zod to let zod know types and error messages using conditionals and coerce
 const FormSchema = z.object({
@@ -120,3 +142,4 @@ export async function deleteInvoice(id: string) {
     revalidatePath('/dashboard/invoices');
 
 }
+
